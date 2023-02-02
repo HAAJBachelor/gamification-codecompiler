@@ -24,14 +24,13 @@ def write_file(data):
 @csrf_exempt
 def index(request):
     data = json.loads(request.body)
-    print(data)
     write_file(data["value"])
     compile_java('Solution.java')
-    tasks = data["task"]["tasks"]
+    testcases = data["gametask"]["testcases"]
     results=[]
-    for task in tasks:
-        input = task["input"]
-        output = task["output"]
+    for testcase in testcases:
+        input = testcase["input"]
+        output = testcase["output"]
         res=execute_java("Solution", input)
         if(res == output):
             results.append("Correct")
