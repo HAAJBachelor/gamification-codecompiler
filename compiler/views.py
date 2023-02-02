@@ -24,17 +24,16 @@ def write_file(data):
 @csrf_exempt
 def index(request):
     data = json.loads(request.body)
-    write_file(data["value"])
+    print(data)
+    write_file(data["userCode"])
     compile_java('Solution.java')
-    testcases = data["gametask"]["testcases"]
+    testcases = data["TestCases"]
     results=[]
     for testcase in testcases:
-        input = testcase["input"]
-        output = testcase["output"]
+        input = testcase["Input"]
+        output = testcase["Output"]
         res=execute_java("Solution", input)
-        if(res == output):
-            results.append("Correct")
-        else:
-            results.append("Wrong, got {}, expected {}.".format(res, output))
+        results.append(res)
     ret = json.dumps(results)
+    print(ret)
     return HttpResponse(ret)
