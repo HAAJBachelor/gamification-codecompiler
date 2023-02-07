@@ -25,7 +25,7 @@ def write_file(data):
 def index(request):
     data = json.loads(request.body)
     print(data)
-    write_file(data["userCode"])
+    write_file(data["UserCode"])
     compile_java('Solution.java')
     testcases = data["TestCases"]
     results=[]
