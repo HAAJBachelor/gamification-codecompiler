@@ -7,4 +7,5 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 RUN apt-get update
 RUN apt install default-jdk -y
+RUN apt install mono-complete
 COPY . /code/
