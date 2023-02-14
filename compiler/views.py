@@ -7,7 +7,6 @@ def compile_java(file):
     subprocess.check_call(['javac', file])
 
 def compile_csharp(file):
-    print(file)
     subprocess.check_call(['mcs' , '-out:solution.exe', file])
 
 def execute_csharp(file, stdin):
