@@ -27,14 +27,16 @@ def compile_csharp(file, foldername):
 
 def execute_csharp(file, stdin, foldername):
     path = foldername + "/" + file
-    cmd = ['mono', path]
+    cmd = ['runuser', '-l', 'coder', '-c', 'mono ' + path]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate(stdin.encode())
-    return stdout.decode().strip()
+    global out
+    out = stdout.decode().strip()
+    return proc.returncode
 
 def execute_java(java_file, stdin, foldername):
     java_class,ext = os.path.splitext(java_file)
-    cmd = ['java', '-classpath', foldername, java_class]
+    cmd = ['runuser', '-l', 'coder', '-c', 'java -classpath ' + foldername + '/ Solution']
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate(stdin.encode())
     global out
@@ -80,7 +82,7 @@ def generate_test_result():
 @csrf_exempt
 def index(request):
     data = json.loads(request.body)
-    foldername = "Solution" + str(data["SessionId"])
+    foldername = "/tmp/Solutions/Solution" + str(data["SessionId"])
     lang = data["Language"]
     if lang == "csharp":
         write_file("Solution.cs", data["UserCode"], foldername)

@@ -9,3 +9,7 @@ RUN apt-get update
 RUN apt install default-jdk -y
 RUN apt install mono-complete -y
 COPY . /code/
+RUN chmod 700 /code
+RUN mkdir /tmp/Solutions
+RUN useradd --home /tmp/Solutions coder --shell /bin/bash
+
