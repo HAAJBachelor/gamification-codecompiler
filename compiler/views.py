@@ -58,12 +58,24 @@ def delete_folder(folder):
     except:
         print("folder doesn't exist")
 
-def generate_error():
+def generate_compiler_error():
     response = {
        'Error' : True,
        'Error_message' : out
     }
     return HttpResponse(json.dumps(response))
+
+def generate_runtime_error():
+    return {
+            'Error' : True,
+            'Description' : out
+            }
+def generate_test_result():
+    return {
+            'Error' : False,
+            'Description' : out
+            }
+    
 
 @csrf_exempt
 def index(request):
@@ -75,30 +87,31 @@ def index(request):
         rc = compile_csharp("Solution.cs", foldername)
         if rc != 0:
             delete_folder(foldername)
-            return generate_error()
+            return generate_compiler_error()
     if lang == "java":
         write_file("Solution.java", data["UserCode"], foldername)
         rc = compile_java('Solution.java', foldername)
         if rc != 0:
             delete_folder(foldername)
-            return generate_error()
+            return generate_compiler_error()
     testcases = data["TestCases"]
     results=[]
     for testcase in testcases:
         input = testcase["Input"]
         output = testcase["Output"]
-        res=""
+        res={}
         if lang == "java":
             rc = execute_java("Solution.java", input, foldername)
             if rc != 0:
-                delete_folder(foldername)
-                return generate_error()
-            res = out
+                res = generate_runtime_error()
+            else:
+                res = generate_test_result()
         if lang == "csharp":
             rc = execute_csharp("Solution.exe",input, foldername)
             if rc != 0:
-                delete_folder(foldername)
-                return generate_error()
+                res = generate_runtime_error()
+            else:
+                res = generate_test_result()
         results.append(res)
     ret = {
         'Error' : False,
