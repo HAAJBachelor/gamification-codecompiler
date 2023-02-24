@@ -36,7 +36,7 @@ def execute_csharp(file, stdin, foldername):
 
 def execute_java(java_file, stdin, foldername):
     java_class,ext = os.path.splitext(java_file)
-    cmd = ['runuser', '-l', 'coder', '-c', 'java -classpath ' + foldername + '/ Solution']
+    cmd = ['runuser', '-l', 'coder', '-c', 'java -Djava.security.manager -Djava.security.policy==/tmp/Solution/java.policy -classpath ' + foldername + '/ Solution']
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate(stdin.encode())
     global out
