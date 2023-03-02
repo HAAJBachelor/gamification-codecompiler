@@ -27,7 +27,7 @@ def compile_csharp(file, foldername):
 
 def execute_csharp(file, stdin, foldername):
     path = foldername + "/" + file
-    cmd = ['runuser', '-l', 'coder', '-c', 'mono ' + path]
+    cmd = ['runuser', '-l', 'coder', '-c', 'timelimit -t3 -T1 mono ' + path]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate(stdin.encode())
     global out
@@ -36,7 +36,7 @@ def execute_csharp(file, stdin, foldername):
 
 def execute_java(java_file, stdin, foldername):
     java_class,ext = os.path.splitext(java_file)
-    cmd = ['runuser', '-l', 'coder', '-c', 'java -classpath ' + foldername + '/ Solution']
+    cmd = ['runuser', '-l', 'coder', '-c', 'timelimit -t3 -T1 java -classpath ' + foldername + '/ Solution']
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate(stdin.encode())
     global out
