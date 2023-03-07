@@ -11,5 +11,6 @@ RUN apt install mono-complete -y
 RUN apt install timelimit -y 
 COPY --chmod=700 . /code/
 RUN mkdir /tmp/Solutions
+COPY java.policy /tmp/Solutions
 RUN useradd --home /tmp/Solutions coder --shell /bin/bash
 

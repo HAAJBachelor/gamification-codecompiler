@@ -46,7 +46,10 @@ def execute_java(java_file, stdin, foldername):
 def write_file(filename, data, foldername):
     path = foldername + "/" + filename
     if (os.path.exists(foldername) == False):
-        subprocess.check_call(['mkdir', foldername])
+        try:
+            subprocess.check_call(['mkdir', foldername])
+        except:
+            pass
     if (os.path.exists(path) == False):
         f = open(path, "x")
     else:
@@ -59,6 +62,7 @@ def delete_folder(folder):
         subprocess.check_call(['rm', '-r', folder])
     except:
         print("folder doesn't exist")
+        pass
 
 def generate_compiler_error():
     response = {
