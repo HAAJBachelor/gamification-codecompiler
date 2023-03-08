@@ -1,0 +1,3 @@
+grant codeBase "./Solutions/-" {
+  permission java.lang.RuntimePermission "getProtectionDomain";
+};
