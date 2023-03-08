@@ -8,6 +8,7 @@ RUN pip install -r requirements.txt
 RUN apt-get update
 RUN apt install default-jdk -y
 RUN apt install mono-complete -y
+RUN apt install timelimit -y 
 COPY --chmod=700 . /code/
 RUN mkdir /tmp/Solutions
 COPY java.policy /tmp/Solutions
