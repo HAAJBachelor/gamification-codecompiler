@@ -48,7 +48,7 @@ def execute_javascript(file, stdin, foldername):
     path = foldername + "/" + file
     cwd = os.getcwd()
     os.chdir(foldername)
-    cmd = [ 'timelimit',  '-t3',  '-T1', 'node',  path]
+    cmd = [ 'timelimit',  '-t3', '-T1', 'node',  path]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     os.chdir(cwd)
     stdout,stderr = proc.communicate()
@@ -61,7 +61,7 @@ def execute_typescript(file, stdin, foldername):
     path = foldername + "/" + file
     cwd = os.getcwd()
     os.chdir(foldername)
-    cmd = [ 'timelimit',  '-t3',  '-T1', 'npx ts-node',  path]
+    cmd = [ 'timelimit', '-t3', '-T1', 'npx', 'ts-node', path]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     os.chdir(cwd)
     stdout,stderr = proc.communicate()
@@ -143,9 +143,9 @@ def index(request):
         write_file("Solution.py", data["UserCode"], foldername)
     testcases = data["TestCases"]
     results=[]
+    print(lang)
     for testcase in testcases:
         input = testcase["Input"]
-        output = testcase["Output"]
         res={}
         if lang == "java":
             rc = execute_java("Solution.java", input, foldername)
@@ -153,25 +153,25 @@ def index(request):
                 res = generate_runtime_error()
             else:
                 res = generate_test_result()
-        if lang == "csharp":
+        elif lang == "csharp":
             rc = execute_csharp("Solution.exe",input, foldername)
             if rc != 0:
                 res = generate_runtime_error()
             else:
                 res = generate_test_result()
-        if lang == "javascript":
+        elif lang == "javascript":
             rc = execute_javascript("Solution.js", input, foldername)
             if rc != 0:
                 res = generate_runtime_error()
             else:
                 res = generate_test_result()
-        if lang == "typescript":
-            rc = execute_javascript("Solution.ts", input, foldername)
+        elif lang == "typescript":
+            rc = execute_typescript("Solution.ts", input, foldername)
             if rc != 0:
                 res = generate_runtime_error()
             else:
                 res = generate_test_result()
-        if lang == "python":
+        elif lang == "python":
             rc = execute_python("Solution.py", input, foldername)
             if rc != 0:
                 res = generate_runtime_error()
@@ -183,5 +183,4 @@ def index(request):
         'Results' : results
         }
     delete_folder(foldername)
-    print(ret)
     return HttpResponse(json.dumps(ret))
