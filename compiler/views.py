@@ -177,7 +177,7 @@ def index(request):
                 res = generate_runtime_error()
             else:
                 res = generate_test_result()
-            results.append(res)
+        results.append(res)
     ret = {
         'Error' : False,
         'Results' : results
