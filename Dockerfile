@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM python:3
+EXPOSE 8000
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 RUN apt-get update
