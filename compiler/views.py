@@ -143,7 +143,6 @@ def index(request):
         write_file("Solution.py", data["UserCode"], foldername)
     testcases = data["TestCases"]
     results=[]
-    print(lang)
     for testcase in testcases:
         input = testcase["Input"]
         res={}
